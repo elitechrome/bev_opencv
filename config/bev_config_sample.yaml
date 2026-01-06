@@ -3,7 +3,7 @@
 mode: "geometric" # "homography" or "geometric"
 
 camera:
-  intrinsics_path: "camera_intrinsics.yaml"
+  intrinsics_path: "data/camera_intrinsics.yaml"
   # Optional: inline intrinsics if file not present
   fx: 1000.0
   fy: 1000.0
