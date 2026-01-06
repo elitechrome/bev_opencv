@@ -4,7 +4,7 @@
 
 # Alternative reliable source (Kitti Sample from a repo)
 IMAGE_URL="https://raw.githubusercontent.com/yanii/kitti-pcl/master/KITTI_data/2011_09_26/2011_09_26_drive_0005_sync/image_02/data/0000000000.png"
-OUTPUT_FILE="kitti_sample.png"
+OUTPUT_FILE="data/kitti_sample.png"
 
 echo "Downloading KITTI sample image..."
 curl -L -o "$OUTPUT_FILE" "$IMAGE_URL" --fail

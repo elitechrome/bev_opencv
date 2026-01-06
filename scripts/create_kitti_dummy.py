@@ -25,4 +25,4 @@ def create_kitti_dummy(filename):
     print(f"Generated synthetic KITTI image: {filename}")
 
 if __name__ == "__main__":
-    create_kitti_dummy("kitti_sample.png")
+    create_kitti_dummy("data/kitti_sample.png")

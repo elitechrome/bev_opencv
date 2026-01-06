@@ -4,7 +4,7 @@ camera:
   intrinsics_path: "config/kitti_intrinsics.yaml"
 
 mode: "geometric"
-input_image: "kitti_sample.png"
+input_image: "data/kitti_sample.png"
 
 geometric:
   # Robot to Camera Transform (KITTI Setup)
