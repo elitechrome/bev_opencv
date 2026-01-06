@@ -35,7 +35,7 @@ The default configuration uses the Geometric method.
 **Expected Output:**
 ```
 Starting BEV Application with config: config/bev_config_sample.yaml
-[CameraModel] Loaded intrinsics from camera_intrinsics.yaml (Model: Standard)
+[CameraModel] Loaded intrinsics from data/camera_intrinsics.yaml (Model: Standard)
 [IPMGeometric] Precomputing maps...
 [IPMGeometric] Maps generated.
 BEV App initialized in geometric mode.
@@ -43,7 +43,7 @@ Using checkerboard pattern.
 ```
 
 ### 2. Fisheye Support
-To use a fisheye camera, update `camera_intrinsics.yaml`:
+To use a fisheye camera, update `data/camera_intrinsics.yaml`:
 ```yaml
 distortion_model: "fisheye"
 camera_matrix: ...
