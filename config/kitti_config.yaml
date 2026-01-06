@@ -1,0 +1,68 @@
+%YAML:1.0
+---
+camera:
+  intrinsics_path: "config/kitti_intrinsics.yaml"
+
+mode: "geometric"
+input_image: "kitti_sample.png"
+
+geometric:
+  # Robot to Camera Transform (KITTI Setup)
+  # Camera is ~1.65m high
+  # Optical Frame: Z-forward, X-right, Y-down
+  # Robot Frame: X-forward, Y-left, Z-up
+  # Rotation:
+  #   Z_opt -> X_rob
+  #   X_opt -> -Y_rob
+  #   Y_opt -> -Z_rob
+  #
+  # However, specs say "Input Camera Pose (T_rc given in Robot frame)".
+  # T_rc means Pose of Camera in Robot Frame.
+  # Rotation matrix columns are axes of Camera in Robot frame.
+  # col0 (X_cam) = (0, -1, 0)
+  # col1 (Y_cam) = (0, 0, -1)
+  # col2 (Z_cam) = (1, 0, 0)
+  
+  T_robot_cam: !!opencv-matrix
+     rows: 4
+     cols: 4
+     dt: d
+     data: [ 0, 0, 1, 0,
+             -1, 0, 0, 0,
+             0, -1, 0, 1.65,
+             0, 0, 0, 1 ]
+
+  # Robot to BEV Output Transform
+  # Center BEV at robot (x=0, y=0) but shifted so X-forward is Up in image
+  # and we see mostly forward.
+  # Let's say we want to see [0, 50m] X range, [-15, 15] Y range.
+  # BEV Image origin (0,0) is top-left.
+  # If 50m height, 30m width.
+  # T_robot_bev maps Robot Point -> BEV Point? Or BEV origin in Robot?
+  # Implementation: P_rob = T_robot_bev * P_virt_pix 
+  # Actually IPMGeometric uses T_robot_bev to position the "Virtual Camera" sensor plane?
+  # Wait, let's check ipm_geometric.cpp logic.
+  # P_rob_origin = geo_params_.T_robot_bev * P_virt
+  # P_virt is (x_sens, y_sens, 0, 1) where x_sens, y_sens are centered on 0.
+  # So T_robot_bev defines the center of the BEV region in Robot Frame.
+  # If we want to look forward, center should be e.g. X=25m, Y=0.
+  
+  T_robot_bev: !!opencv-matrix
+     rows: 4
+     cols: 4
+     dt: d
+     data: [ 0, -1, 0, 10.0,
+             -1, 0, 0, 0.0,
+             0, 0, 1, 0.0,
+             0, 0, 0, 1 ]
+
+  target_res_width: 600
+  target_res_height: 1000
+  # 50m / 1000px = 0.05 m/px => 20 px/m?
+  # 30m / 600px = 0.05 m/px.
+  # So px_per_mm = 0.02
+  # User requested smaller BEV:
+  # px_per_mm = 0.05 => 20mm/px = 0.02m/px
+  # 600px * 0.02 = 12m width
+  # 1000px * 0.02 = 20m height
+  px_per_mm: 0.05

@@ -1,0 +1,45 @@
+%YAML:1.0
+---
+mode: "geometric" # "homography" or "geometric"
+
+camera:
+  intrinsics_path: "camera_intrinsics.yaml"
+  # Optional: inline intrinsics if file not present
+  fx: 1000.0
+  fy: 1000.0
+  cx: 640.0
+  cy: 360.0
+  k1: 0.0
+  k2: 0.0
+
+homography:
+  src_points: [ [100, 100], [200, 100], [200, 200], [100, 200] ]
+  dst_points: [ [150, 150], [250, 150], [250, 250], [150, 250] ]
+  target_width: 500
+  target_height: 500
+
+geometric:
+  # Robot Frame: X-front, Y-left, Z-up
+  # Camera Pose in Robot Frame
+  T_robot_cam: !!opencv-matrix
+    rows: 4
+    cols: 4
+    dt: d
+    data: [ 0, 0, 1, 0.2,
+           -1, 0, 0, 0,
+            0, -1, 0, 1.5,
+            0, 0, 0, 1 ]
+  
+  # Virtual BEV Camera Pose (usually looking down from Z)
+  T_robot_bev: !!opencv-matrix
+    rows: 4
+    cols: 4
+    dt: d
+    data: [ 1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 10.0,
+            0, 0, 0, 1 ]
+            
+  target_res_width: 800
+  target_res_height: 800
+  px_per_mm: 0.1 # 10 pixels per cm
