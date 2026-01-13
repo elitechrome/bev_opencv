@@ -41,7 +41,7 @@ int main() {
 
   geo_params.target_res_width = 600;
   geo_params.target_res_height = 1000;
-  geo_params.scale_px_per_mm = 0.02; // 20 px/m = 0.05m/px
+  geo_params.meter_per_px = 0.05; // 0.05 m/px = 20 px/m
 
   bev::IPMGeometric ipm_subsystem;
   ipm_subsystem.init(cam_model.getParams(), geo_params);
@@ -71,7 +71,7 @@ int main() {
   // Assert P_ground ~= P_ground_recalc
 
   const float ground_resolution =
-      1.0f / (geo_params.scale_px_per_mm * 1000.0f); // meters/pixel = 0.05
+      geo_params.meter_per_px; // meters/pixel = 0.05
   const int bev_w = geo_params.target_res_width;
   const int bev_h = geo_params.target_res_height;
 
@@ -120,8 +120,8 @@ int main() {
     // x_sens = (u - w/2) * res   => u = x_sens/res + w/2
     // y_sens = (v - h/2) * res   => v = y_sens/res + h/2
 
-    double u_bev = x_bm * (geo_params.scale_px_per_mm * 1000.0) + bev_w / 2.0;
-    double v_bev = y_bm * (geo_params.scale_px_per_mm * 1000.0) + bev_h / 2.0;
+    double u_bev = x_bm * (1.0 / geo_params.meter_per_px) + bev_w / 2.0;
+    double v_bev = y_bm * (1.0 / geo_params.meter_per_px) + bev_h / 2.0;
 
     std::cout << "Point Ground: " << P_g << " -> Image: " << uv
               << " -> Expected BEV: (" << u_bev << ", " << v_bev << ")"

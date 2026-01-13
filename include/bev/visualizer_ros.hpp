@@ -2,7 +2,7 @@
 #include "visualizer_interface.hpp"
 
 #ifdef BEV_ENABLE_ROS_VIZ
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 

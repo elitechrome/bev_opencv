@@ -35,7 +35,7 @@ void IPMGeometric::precomputeMaps() {
   cv::Mat T_opt_robot = T_robot_opt.inv();
 
   // Virtual Camera (Orthographic) logic
-  double res_m = (1.0 / geo_params_.scale_px_per_mm) / 1000.0;
+  double res_m = geo_params_.meter_per_px;
 
   // Pre-allocate pts for batch projection if we wanted optimization,
   // but nested loop is clearer for logic.
